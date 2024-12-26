@@ -1,5 +1,5 @@
 <?php
-namespace app\Model;
+namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class History extends Model
@@ -14,7 +14,7 @@ class History extends Model
 
     public function movie()
     {
-        return $this->belongsTo(Movie::class, 'movie_id');
+        return $this->belongsTo(Movies::class, 'movie_id');
     }
 
     public function user()

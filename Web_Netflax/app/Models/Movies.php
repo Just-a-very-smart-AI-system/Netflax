@@ -1,9 +1,9 @@
 <?php
-namespace app\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Movie extends Model
+class Movies extends Model
 {
     protected $table = 'movies';
     public $timestamps = false;
