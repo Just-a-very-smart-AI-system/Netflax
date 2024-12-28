@@ -15,7 +15,7 @@ class MovieCategory extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_id');
+        return $this->belongsToMany(Categories::class, 'category_id');
     }
 
     public function movies()

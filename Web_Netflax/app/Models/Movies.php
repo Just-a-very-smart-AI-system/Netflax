@@ -15,7 +15,7 @@ class Movies extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'movie_category', 'movie_id', 'category_id');
+        return $this->belongsToMany(Categories::class, 'movie_category', 'movie_id', 'category_id');
     }
 
     public function favorites()

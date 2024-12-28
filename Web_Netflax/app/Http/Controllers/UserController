@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\User;
+
+class UserController extends Controller
+{
+    public function show(){
+        $users = User::all();
+
+        return response()->json($users);
+    }
+    public function find($id){
+        $user = User::find($id);
+
+        if(!$user){
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        return response()->json($user);
+    }
+
+    public function store($request){
+        $validatedData = $request->validate([
+            'user_name'=>'required|string|max:50',
+            'password' => 'required|string|max:50',
+            'email' => 'required|string|max:50',
+        ]);
+
+        $newUser = User::create($validatedData);
+
+        if (!$newUser) {
+            return response()->json(['message' => 'Failed to create User'], 500);
+        }
+
+        return response()->json(['message' => 'User created successfully', 'newUser' => $newUser], 201);
+    }
+    // Xóa một lịch sử
+    public function destroy($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $user->delete();
+
+        return response()->json(['message' => 'User deleted successfully']);
+    }
+}
