@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,25 +6,32 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function show(){
+    // Lấy danh sách người dùng
+    public function index()
+    {
         $users = User::all();
-
         return response()->json($users);
     }
-    public function find($id){
+
+    // Lấy chi tiết người dùng theo ID
+    public function show($id)
+    {
         $user = User::find($id);
 
-        if(!$user){
+        if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
         }
+
         return response()->json($user);
     }
 
-    public function store($request){
+    // Tạo người dùng mới
+    public function store(Request $request)
+    {
         $validatedData = $request->validate([
-            'user_name'=>'required|string|max:50',
-            'password' => 'required|string|max:50',
-            'email' => 'required|string|max:50',
+            'user_name' => 'required|string|max:50',
+            'password'  => 'required|string|max:50',
+            'email'     => 'required|string|max:50',
         ]);
 
         $newUser = User::create($validatedData);
@@ -36,7 +42,8 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User created successfully', 'newUser' => $newUser], 201);
     }
-    // Xóa một lịch sử
+
+    // Xóa người dùng theo ID
     public function destroy($id)
     {
         $user = User::find($id);
