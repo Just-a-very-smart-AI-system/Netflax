@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="{{ asset('css/Log_in.css') }}">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet">
+    <script src="{{ asset('js/log_in.js') }}" defer></script>
     <title>Netflax</title>
 </head>
+
 
 
 <body>
@@ -24,6 +26,62 @@
                 <button class="btn btn-red-sn">Sign In</button>
             </div>
         </nav>
+
+        <!-- Frame Đăng Nhập -->
+        <div id="loginFrame" class="hidden">
+            <div class="frame-content">
+                <p>Đăng Nhập</p>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Email hoặc Username:</label>
+                        <input type="text" id="username" class="form-control" name="username" placeholder="Nhập email hoặc username" required>
+                        <div id="usernameError" class="error-message hidden">Không tìm thấy username/email</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu:</label>
+                        <input type="password" id="password" class="form-control" name="password" placeholder="Nhập mật khẩu" required>
+                        <div id="passwordError" class="error-message hidden">Sai mật khẩu</div>
+                    </div>
+                    <button type="submit" class="btn1 btn1-red btn-block">Đăng Nhập</button>
+                    <button type="button" id="closeBtn" class="btn1 btn1-secondary btn-block">Đóng</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Frame Đăng Ký -->
+        <div id="registerFrame" class="hidden">
+            <div class="frame-content">
+                <p>Đăng Ký</p>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="user_name">Tên Người Dùng:</label>
+                        <input type="text" id="user_name" class="form-control" name="user_name" placeholder="Nhập tên người dùng" required>
+                        <div id="userNameError" class="error-message hidden">Tên người dùng không hợp lệ</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" class="form-control" name="email" placeholder="Nhập email" required>
+                        <div id="emailError" class="error-message hidden">Email không hợp lệ</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register_password">Mật khẩu:</label>
+                        <input type="password" id="register_password" class="form-control" name="register_password" placeholder="Nhập mật khẩu" required>
+                        <div id="registerPasswordError" class="error-message hidden">Mật khẩu không hợp lệ</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Nhập lại Mật khẩu:</label>
+                        <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Nhập lại mật khẩu" required>
+                        <div id="confirmPasswordError" class="error-message hidden">Mật khẩu không khớp</div>
+                    </div>
+                    <button type="submit" class="btn1 btn1-red btn-block">Đăng Ký</button>
+                    <button type="button" id="closeRegisterBtn" class="btn1 btn1-secondary btn-block">Đóng</button>
+                </form>
+            </div>
+        </div>
+
+
+
+
         <div class="box"></div>
         <div class="hero" style="background-image: url('{{ asset('images/bg_img.jpg') }}');">
             <h1>Unlimited movies, TV shows and more</h1>
@@ -126,7 +184,7 @@
                 <a href="faq">Investor Relations</a>
                 <a href="faq">Privacy</a>
                 <a href="faq">Speed Test</a>
-                <p>Netflax India</p>
+                <p>Netflax</p>
             </div>
             <div class="footer-item">
                 <a href="faq">Help Centre</a>
