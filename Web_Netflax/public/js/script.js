@@ -42,24 +42,55 @@ function fetchMovies(url, dom_element, path_type) {
     })
 }
 
-// Function that displays the movies to the DOM
-showMovies = (movies, dom_element, path_type) => {
+const showMovies = (movies, dom_element, path_type) => {
+  if (!movies || !movies.results || movies.results.length === 0) return;
 
-  var moviesEl = document.querySelector(dom_element)
+  const moviesEl = document.querySelector(dom_element);
+  if (!moviesEl) return;
 
-  for (var movie of movies.results) {
-    var imageElement = document.createElement('img')
+  movies.results.forEach(movie => {
+    // Tạo thẻ chứa phim
+    const movieCard = document.createElement('div');
+    movieCard.classList.add('movie-card');
 
-    imageElement.setAttribute('data-id', movie.id)
+    // Tạo thẻ ảnh
+    const imageElement = document.createElement('img');
+    imageElement.setAttribute('data-id', movie.id);
+    imageElement.src = `https://image.tmdb.org/t/p/original${movie[path_type]}`;
+    
+    // Tạo container cho các nút
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button-container');
 
-    imageElement.src = `https://image.tmdb.org/t/p/original${movie[path_type]}`
+    // Tạo nút Play
+    const playButton = document.createElement('button');
+    playButton.classList.add('play-btn');
+    playButton.innerHTML = '&#9658;'; // Mã HTML cho hình tam giác
+    // Truyền trực tiếp movie.id vào hàm handleMovieSelection
+    playButton.addEventListener('click', () => handleMovieSelection(movie.id));
 
-    imageElement.addEventListener('click', e => {
-      handleMovieSelection(e)
-    })
-    moviesEl.appendChild(imageElement)
-  }
-}
+    // Tạo nút Trái Tim
+    const heartButton = document.createElement('button');
+    heartButton.classList.add('heart-btn');
+    heartButton.addEventListener('click', () => {
+      console.log(`Added movie ID: ${movie.id} to wishlist`);
+    });
+
+    // Thêm các nút vào container
+    buttonContainer.appendChild(playButton);
+    buttonContainer.appendChild(heartButton);
+
+    // Thêm ảnh và nút vào thẻ phim
+    movieCard.appendChild(imageElement);
+    movieCard.appendChild(buttonContainer);
+
+    // Thêm thẻ phim vào DOM
+    moviesEl.appendChild(movieCard);
+  });
+};
+
+
+
 
 // ** Function that fetches Netflix Originals **
 function getOriginals() {
@@ -234,9 +265,7 @@ const setTrailer = trailers => {
   }
 }
 
-const handleMovieSelection = e => {
-  const id = e.target.getAttribute('data-id')
-  console.log(e.target);
+const handleMovieSelection = id => {
   const iframe = document.getElementById('movieTrailer')
   getMovieTrailer(id).then(data => {
     const results = data.results

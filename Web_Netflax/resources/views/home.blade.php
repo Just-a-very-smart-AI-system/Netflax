@@ -69,7 +69,7 @@
     <div id="top_rated" class="movies__container">
         <!-- Top Rated Movies List Here -->
     </div>
-    <div class="showcase-content">
+    <div class="showcase-content" style="height: 250px; margin: auto;">
         <h1>Genres</h1>
     </div>
     <div class="movies__header">

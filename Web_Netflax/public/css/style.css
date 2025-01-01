@@ -39,18 +39,11 @@ body {
   cursor: pointer;
 }
 
+/* Original Movies Container */
 .original__movies,
 .movies__container {
   padding-top: 20px;
   padding-bottom: 20px;
-}
-
-.profile:hover .dropdown-container {
-  display: block;
-}
-
-.original__movies,
-.movies__container {
   padding-left: 30px;
   margin-bottom: 2rem;
   display: flex;
@@ -66,24 +59,109 @@ body {
   margin-right: 10px;
   height: 250px;
   width: auto;
-}
-
-.original__movies img,
-.movies__container img {
   transition: all 0.2s ease-out;
   cursor: pointer;
 }
 
-.original__movies img:hover,
+.original__movies img:hover {
+  transform: scale(1.1);
+}
+
+/* Trending Movies Container */
+.movies__container img,
+.trending img{
+  margin-right: 10px;
+  width: 200px !important;
+  height: 125px !important;
+  max-width: 250px;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+
 .movies__container img:hover {
   transform: scale(1.1);
 }
 
-.movies__container img {
+/* Movie Card for Play and Heart Buttons */
+.movie-card {
+  position: relative;
+  display: inline-block;
   margin-right: 10px;
-  width: 200px;
-  height: 125px;
+  text-align: center;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
 }
+.movie-card:hover img,
+.movie-card .button-container:hover ~ img {
+  transform: scale(1.05); /* Phóng to ảnh */
+  filter: brightness(50%); /* Giảm độ sáng */
+}
+
+.movie-card .button-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.movie-card .button-container:hover{
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+.movie-card:hover .button-container {
+  opacity: 1;
+}
+
+.movie-card button {
+  padding: 8px 12px;
+  width: 75px;
+  height: 50px;
+  font-size: 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+/* Nút Play */
+.play-btn {
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.play-btn:hover{
+  transform: scale(1.2); /* Phóng to khi hover */
+  background-color: rgb(0, 156, 0);
+}
+/* Nút Trái Tim */
+.heart-btn {
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+.heart-btn:hover{
+  transform: scale(1.2); /* Phóng to khi hover */
+}
+.heart-btn::before {
+  content: '\2661'; /* Unicode cho trái tim rỗng */
+  color: white;
+  transition: color 0.3s ease-in-out, content 0.3s ease-in-out;
+}
+
+.heart-btn:hover::before {
+  content: '\2665'; /* Unicode cho trái tim đầy */
+  color: red; /* Đổi màu đỏ khi hover */
+}
+
 
 header {
   display: flex;
@@ -266,8 +344,8 @@ img {
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 1rem;
-  margin-bottom: 3rem;
+  margin-top: -18rem;
+  margin-bottom: 4.5rem;
   font-size: 35px;
 }
 
