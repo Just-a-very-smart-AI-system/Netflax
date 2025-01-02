@@ -48,6 +48,7 @@ Route::prefix('favorites')->group(function () {
 Route::prefix('users')->group(function () {
     Route::get('/all', [UserController::class, 'index']);              // Lấy danh sách người dùng
     Route::get('/findId/{id}', [UserController::class, 'show']);        // Lấy chi tiết người dùng
+    Route::post('/login', [UserController::class, 'login']);      //Login
     Route::post('/create', [UserController::class, 'store']);          // Tạo mới người dùng
     Route::put('/update/{id}', [UserController::class, 'update']);      // Cập nhật thông tin người dùng
     Route::delete('/delete/{id}', [UserController::class, 'destroy']);  // Xóa người dùng

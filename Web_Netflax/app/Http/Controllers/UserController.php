@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class UserController extends Controller
@@ -10,6 +11,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        // foreach ($users as $user) {
+        //     if (!Hash::needsRehash($user->password)) {
+        //         // Mã hóa lại nếu mật khẩu chưa dùng Bcrypt
+        //         $user->password = Hash::make($user->password);
+        //         $user->save();
+        //     }
+        // }
         return response()->json($users);
     }
 
@@ -33,7 +41,6 @@ class UserController extends Controller
             'password'  => 'required|string|max:50',
             'email'     => 'required|string|max:50',
         ]);
-
         $newUser = User::create($validatedData);
 
         if (!$newUser) {
@@ -55,5 +62,26 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'User deleted successfully']);
+    }
+    public function login(Request $request)
+    {
+        $validatedData = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $user = User::where('user_name', $validatedData['username'])
+                    ->orWhere('email', $validatedData['username'])
+                    ->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if ($validatedData['password'] !== $user->password) {
+            return response()->json(['message' => 'Invalid password'], 401);
+        }
+
+        return response()->json(['message' => 'Login successful', 'user' => $user]);
     }
 }

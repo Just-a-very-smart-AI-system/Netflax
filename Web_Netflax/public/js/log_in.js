@@ -43,70 +43,99 @@ closeRegisterBtn.addEventListener('click', () => {
 });
 
 // Kiểm tra đăng nhập
-loginForm.addEventListener('submit', function (e) {
+loginForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    // Reset lỗi cũ
-    usernameError.style.display = 'none';
-    passwordError.style.display = 'none';
-
-    // Kiểm tra form đăng nhập
+    // Lấy dữ liệu từ form
     const username = usernameInput.value.trim();
     const password = passwordInput.value.trim();
 
-    if (!username) {
-        usernameError.style.display = 'block';
-    }
-    if (!password) {
-        passwordError.style.display = 'block';
-    }
+    // Reset lỗi
+    usernameError.style.display = 'none';
+    passwordError.style.display = 'none';
 
-    if (username && password) {
-        // Thực hiện đăng nhập tại đây
-        console.log("Đăng nhập thành công");
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Xử lý khi đăng nhập thành công
+            console.log("Đăng nhập thành công:", data);
+            document.getElementById('loginFrame').classList.add('hidden');
+            usernameInput.value = '';
+            passwordInput.value = '';
+
+        } else {
+            // Xử lý lỗi từ server
+            if (data.message.includes('User not found')) {
+                usernameError.style.display = 'block';
+            } else if (data.message.includes('Invalid password')) {
+                passwordError.style.display = 'block';
+            }
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API đăng nhập:', error);
     }
 });
 
-// Kiểm tra đăng ký
-registerForm.addEventListener('submit', function (e) {
+
+// Kiểm tra đăng ký 
+registerForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    // Reset lỗi cũ
+    // Lấy dữ liệu từ form
+    const userName = userNameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = registerPasswordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+
+    // Reset lỗi
     userNameError.style.display = 'none';
     emailError.style.display = 'none';
     registerPasswordError.style.display = 'none';
     confirmPasswordError.style.display = 'none';
 
-    // Kiểm tra form đăng ký
-    const userName = userNameInput.value.trim();
-    const email = emailInput.value.trim();
-    const registerPassword = registerPasswordInput.value.trim();
-    const confirmPassword = confirmPasswordInput.value.trim();
-
-    let valid = true;
-
-    if (!userName) {
-        userNameError.style.display = 'block';
-        valid = false;
-    }
-
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-        emailError.style.display = 'block';
-        valid = false;
-    }
-
-    if (!registerPassword) {
-        registerPasswordError.style.display = 'block';
-        valid = false;
-    }
-
-    if (registerPassword !== confirmPassword) {
+    if (password !== confirmPassword) {
         confirmPasswordError.style.display = 'block';
-        valid = false;
+        return;
     }
 
-    if (valid) {
-        // Thực hiện đăng ký tại đây
-        console.log("Đăng ký thành công");
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/users/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_name: userName, email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Xử lý khi đăng ký thành công
+            console.log("Đăng ký thành công:", data);
+            document.getElementById('registerFrame').classList.add('hidden');
+            userNameInput.value = '';
+            emailInput.value = '';
+            registerPasswordInput.value = '';
+            confirmPasswordInput.value = '';
+        } else {
+            // Xử lý lỗi từ server
+            if (data.errors?.email) {
+                emailError.style.display = 'block';
+            }
+            if (data.errors?.user_name) {
+                userNameError.style.display = 'block';
+            }
+        }
+    } catch (error) {
+        console.error('Lỗi khi gọi API đăng ký:', error);
     }
 });
